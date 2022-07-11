@@ -21,7 +21,8 @@ import com.example.googlekeepclone.ui.theme.ButtonBlue
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun UI(){
+fun OnboardingScreen(errorText:String?,
+                     onClick:()->Unit){
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,6 +41,16 @@ fun UI(){
         Text(text = "Make lists, take photos, speak your mind-whatever works for you, works in Keep.",
             textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(40.dp))
+        Scaffold() {
+            GoogleSignInButton(text = "Sign in With Google",
+                loadingText = "Signing In.....",
+                onClicked = {onClick()})
+        }
+        errorText?.let {
+            Spacer(modifier = Modifier.height(30.dp))
+            Text(text = it)
+        }
+
     }
 
 }
@@ -76,8 +87,3 @@ onClicked:()->Unit){
     }
 }
 
-@Composable
-@Preview
-fun PreviewThis(){
-    UI()
-}
