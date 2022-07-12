@@ -4,7 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
-import com.example.googlekeepclone.OnboardingScreen
+import com.example.googlekeepclone.LoginScreen
 import com.example.googlekeepclone.model.AuthViewModel
 import com.example.googlekeepclone.utils.AuthResultContract
 import com.google.android.gms.common.api.ApiException
@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
-fun AuthScreen(authViewModel: AuthViewModel){
+fun OnBoardingScreen(authViewModel: AuthViewModel){
     val coroutineScope = rememberCoroutineScope()
     var text by remember{ mutableStateOf<String?>(null)}
     val user by remember(authViewModel){authViewModel.user}.collectAsState()
     val signInRequestCode = 1
 
-    val authResultLauncher =
+    val OnBoardingScreenLauncher =
         rememberLauncherForActivityResult(contract = AuthResultContract() ){task->
             try{
                 val account = task?.getResult(ApiException::class.java)
@@ -43,9 +43,8 @@ fun AuthScreen(authViewModel: AuthViewModel){
             }
 
         }
-    OnboardingScreen(errorText = text, onClick = {text = null
-    authResultLauncher.launch(signInRequestCode)})
-
+    LoginScreen(errorText = text, onClick = {text = null
+    OnBoardingScreenLauncher.launch(signInRequestCode)})
     user?.let{
         HomeScreen(user = it)
     }
