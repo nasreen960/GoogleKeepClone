@@ -1,6 +1,7 @@
 package com.example.googlekeepclone.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -18,6 +19,8 @@ import com.example.googlekeepclone.R
 
 @Composable
 fun Dashboard() {
+    SearchAppBar()
+    NotesList()
 
 }
 
@@ -46,29 +49,54 @@ fun SearchAppBar() {
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun NotesList(Text: String) {
-    Column() {
+fun NotesList() {
+    val Text = String
+    Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 100.dp, bottom = 100.dp)) {
         LazyVerticalGrid(
             cells = GridCells.Fixed(2),
             content = {
                 Text
             })
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.End
-        ) {
-            FloatingActionButton(
-                onClick = {},
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(Icons.Filled.Add, "")
-            }
-        }
+
     }
 
 }
+
+@Composable
+fun BottomBar() {
+    Row(verticalAlignment = Alignment.Bottom,
+    horizontalArrangement = Arrangement.Start) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_search),
+            contentDescription = "Profile",
+            tint = Color.Black
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Icon(
+            painter = painterResource(id = R.drawable.ic_brush),
+            contentDescription = "search",
+            tint = Color.Black
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Icon(
+            painter = painterResource(id = R.drawable.ic_mic),
+            contentDescription = "speaker",
+            tint = Color.Black
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        FloatingActionButton(
+            onClick = {},
+            modifier = Modifier.size(40.dp)
+        ) {
+            Icon(Icons.Filled.Add, "")
+        }
+
+
+    }
+}
+
 
 @Preview
 @Composable
