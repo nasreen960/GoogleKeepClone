@@ -7,6 +7,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import com.example.googlekeepclone.model.AuthViewModel
+import com.example.googlekeepclone.navigation.Dashboard
 import com.example.googlekeepclone.presentation.OnBoardingScreen
 import com.example.googlekeepclone.ui.theme.GoogleKeepCloneTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    OnBoardingScreen(AuthViewModel())
+//                    Dashboard()
                    
                 }
             }

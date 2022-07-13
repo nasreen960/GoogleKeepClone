@@ -19,9 +19,9 @@ import com.example.googlekeepclone.R
 
 @Composable
 fun Dashboard() {
-    SearchAppBar()
-    NotesList()
-
+    Column(modifier = Modifier.padding(8.dp)) {
+        SearchAppBar()
+    }
 }
 
 @Composable
@@ -38,13 +38,20 @@ fun SearchAppBar() {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
                         contentDescription = "Search Icon",
-                        tint = Color.Black
+                        tint = Color.White
                     )
                 }
             }
         )
     }
-    ) {}
+    ) {
+        Column {
+            NotesList()
+            Spacer(modifier = Modifier.height(628.dp))
+            BottomBar()
+
+        }
+    }
 
 }
 
@@ -53,7 +60,7 @@ fun SearchAppBar() {
 @Composable
 fun NotesList() {
     val Text = String
-    Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 100.dp, bottom = 100.dp)) {
+    Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 100.dp)) {
         LazyVerticalGrid(
             cells = GridCells.Fixed(2),
             content = {
@@ -66,26 +73,25 @@ fun NotesList() {
 
 @Composable
 fun BottomBar() {
-    Row(verticalAlignment = Alignment.Bottom,
-    horizontalArrangement = Arrangement.Start) {
+    Row(horizontalArrangement = Arrangement.Start) {
         Icon(
             painter = painterResource(id = R.drawable.ic_search),
             contentDescription = "Profile",
             tint = Color.Black
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(20.dp))
         Icon(
             painter = painterResource(id = R.drawable.ic_brush),
             contentDescription = "search",
             tint = Color.Black
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(20.dp))
         Icon(
             painter = painterResource(id = R.drawable.ic_mic),
             contentDescription = "speaker",
             tint = Color.Black
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(212.dp))
         FloatingActionButton(
             onClick = {},
             modifier = Modifier.size(40.dp)
@@ -101,5 +107,6 @@ fun BottomBar() {
 @Preview
 @Composable
 fun PreviewThis() {
+    Dashboard()
 
 }
