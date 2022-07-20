@@ -56,7 +56,8 @@ fun DetailScreen(
 
     val scaffoldState = rememberScaffoldState()
 
-    Scaffold(scaffoldState = scaffoldState,
+    Scaffold(
+        scaffoldState = scaffoldState,
         floatingActionButton = {
             AnimatedVisibility(visible = isFormsNotBlank) {
                 FloatingActionButton(
@@ -68,8 +69,8 @@ fun DetailScreen(
                         }
                     }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_add),
-                        contentDescription = null
+                        imageVector = icon,
+                                contentDescription = null
                     )
 
                 }

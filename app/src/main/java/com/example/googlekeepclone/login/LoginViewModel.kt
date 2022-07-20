@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val repository: AuthRepository = AuthRepository(),
 ) : ViewModel() {
-    val currentUser = repository.currentUser
+  val currentUser = repository.currentUser
 
     val hasUser: Boolean
         get() = repository.hasUser()
@@ -39,12 +39,10 @@ class LoginViewModel(
     }
 
     private fun validateLoginForm() =
-        loginUiState.userName.isNotBlank() &&
-                loginUiState.password.isNotBlank()
+        loginUiState.userName.isNotBlank() && loginUiState.password.isNotBlank()
 
     private fun validateSignupForm() =
-        loginUiState.userNameSignUp.isNotBlank() &&
-                loginUiState.passwordSignUp.isNotBlank() &&
+        loginUiState.userNameSignUp.isNotBlank() && loginUiState.passwordSignUp.isNotBlank() &&
                 loginUiState.confirmPasswordSignUp.isNotBlank()
 
 

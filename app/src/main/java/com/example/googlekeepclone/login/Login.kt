@@ -20,8 +20,8 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel? = null,
-    onNavToHomePage:() -> Unit,
-    onNavToSignUpPage:() -> Unit,
+    onNavToHomePage: () -> Unit,
+    onNavToSignUpPage: () -> Unit,
 ) {
     val loginUiState = loginViewModel?.loginUiState
     val isError = loginUiState?.loginError != null
@@ -37,20 +37,18 @@ fun LoginScreen(
             fontWeight = FontWeight.Black,
             color = MaterialTheme.colors.primary
         )
-
-        if (isError){
+        if (isError) {
             Text(
                 text = loginUiState?.loginError ?: "unknown error",
                 color = Color.Red,
             )
         }
-
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             value = loginUiState?.userName ?: "",
-            onValueChange = {loginViewModel?.onUserNameChange(it)},
+            onValueChange = { loginViewModel?.onUserNameChange(it) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Person,
@@ -80,12 +78,10 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation(),
             isError = isError
         )
-
         Button(onClick = { loginViewModel?.loginUser(context) }) {
             Text(text = "Sign In")
         }
         Spacer(modifier = Modifier.size(16.dp))
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -95,41 +91,27 @@ fun LoginScreen(
             TextButton(onClick = { onNavToSignUpPage.invoke() }) {
                 Text(text = "SignUp")
             }
-
-
         }
-
-        if (loginUiState?.isLoading == true){
+        if (loginUiState?.isLoading == true) {
             CircularProgressIndicator()
         }
-
-        LaunchedEffect(key1 = loginViewModel?.hasUser){
-            if (loginViewModel?.hasUser == true){
+        LaunchedEffect(key1 = loginViewModel?.hasUser) {
+            if (loginViewModel?.hasUser == true) {
                 onNavToHomePage.invoke()
             }
         }
-
-
-
-
-
-
-
     }
-
-
 }
 
 @Composable
 fun SignUpScreen(
     loginViewModel: LoginViewModel? = null,
-    onNavToHomePage:() -> Unit,
-    onNavToLoginPage:() -> Unit,
+    onNavToHomePage: () -> Unit,
+    onNavToLoginPage: () -> Unit,
 ) {
     val loginUiState = loginViewModel?.loginUiState
     val isError = loginUiState?.signUpError != null
     val context = LocalContext.current
-
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -140,20 +122,18 @@ fun SignUpScreen(
             fontWeight = FontWeight.Black,
             color = MaterialTheme.colors.primary
         )
-
-        if (isError){
+        if (isError) {
             Text(
                 text = loginUiState?.signUpError ?: "unknown error",
                 color = Color.Red,
             )
         }
-
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             value = loginUiState?.userNameSignUp ?: "",
-            onValueChange = {loginViewModel?.onUserNameChangeSignup(it)},
+            onValueChange = { loginViewModel?.onUserNameChangeSignup(it) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Person,
@@ -201,7 +181,6 @@ fun SignUpScreen(
             visualTransformation = PasswordVisualTransformation(),
             isError = isError
         )
-
         Button(onClick = { loginViewModel?.createUser(context) }) {
             Text(text = "Sign In")
         }
@@ -215,26 +194,14 @@ fun SignUpScreen(
             TextButton(onClick = { onNavToLoginPage.invoke() }) {
                 Text(text = "Sign In")
             }
-
         }
-
-        if (loginUiState?.isLoading == true){
+        if (loginUiState?.isLoading == true) {
             CircularProgressIndicator()
         }
-
-        LaunchedEffect(key1 = loginViewModel?.hasUser){
-            if (loginViewModel?.hasUser == true){
+        LaunchedEffect(key1 = loginViewModel?.hasUser) {
+            if (loginViewModel?.hasUser == true) {
                 onNavToHomePage.invoke()
             }
         }
-
-
-
-
-
-
-
     }
-
-
 }

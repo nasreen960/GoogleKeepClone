@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.callbackFlow
 const val NOTES_COLLECTION_REF = "notes"
 
 class StorageRepository {
-
     fun user() = Firebase.auth.currentUser
 
     fun hasUser(): Boolean = Firebase.auth.currentUser != null
@@ -35,7 +34,6 @@ class StorageRepository {
                     val response = if (snapshot != null) {
                         val notes = snapshot.toObjects(Notes::class.java)
                         Resources.Success(data = notes)
-
                     } else {
                         Resources.Error(throwable = e?.cause)
                     }
@@ -62,19 +60,19 @@ class StorageRepository {
             .addOnSuccessListener {
                 it?.toObject(Notes::class.java)?.let { it1 -> onSuccess.invoke(it1) }
             }
-            .addOnFailureListener { result->
+            .addOnFailureListener { result ->
                 onError.invoke(result.cause)
             }
     }
 
     fun addNote(
-        userId:String,
-        title:String,
-        description:String,
+        userId: String,
+        title: String,
+        description: String,
         timestamp: Timestamp,
         color: Int = 0,
-        onComplete:(Boolean)-> Unit
-        ){
+        onComplete: (Boolean) -> Unit
+    ) {
         val documentId = notesRef.document().id
         val note = Notes(
             userId,
@@ -87,13 +85,13 @@ class StorageRepository {
         notesRef
             .document(documentId)
             .set(note)
-            .addOnCompleteListener { result->
+            .addOnCompleteListener { result ->
                 onComplete.invoke(result.isSuccessful)
             }
 
     }
 
-    fun deleteNote(noteId: String,onComplete: (Boolean) -> Unit){
+    fun deleteNote(noteId: String, onComplete: (Boolean) -> Unit) {
         notesRef
             .document(noteId)
             .delete()
@@ -107,8 +105,8 @@ class StorageRepository {
         note: String,
         color: Int,
         noteId: String,
-        onResult:(Boolean)-> Unit
-    ){
+        onResult: (Boolean) -> Unit
+    ) {
         val updateData = hashMapOf<String, Any>(
             "colorIndex" to color,
             "description" to note,
@@ -120,19 +118,16 @@ class StorageRepository {
             .addOnCompleteListener {
                 onResult(it.isSuccessful)
             }
-
     }
     fun signOut() = Firebase.auth.signOut()
-
-
 }
 
 sealed class Resources<T>(
     val data: T? = null,
     val throwable: Throwable? = null
-){
-    class Loading<T>:Resources<T>()
-    class Success<T>(data: T?):Resources<T>(data = data)
-    class Error<T>(throwable: Throwable?):Resources<T>(throwable = throwable)
+) {
+    class Loading<T> : Resources<T>()
+    class Success<T>(data: T?) : Resources<T>(data = data)
+    class Error<T>(throwable: Throwable?) : Resources<T>(throwable = throwable)
 
 }
