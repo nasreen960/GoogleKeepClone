@@ -59,22 +59,23 @@ fun DetailScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
-            AnimatedVisibility(visible = isFormsNotBlank) {
-                FloatingActionButton(
-                    onClick = {
-                        if (isNoteIdNotBlank) {
-                            detailViewModel?.updateNote(noteId)
-                        } else {
-                            detailViewModel?.addNote()
-                        }
-                    }) {
-                    Icon(
-                        imageVector = icon,
-                                contentDescription = null
-                    )
+//          AnimatedVisibility(visible = isFormsNotBlank) {
+              FloatingActionButton(
+                  onClick = {
+                      if (isNoteIdNotBlank) {
+                          detailViewModel?.updateNote(noteId)
+                      } else {
+                          detailViewModel?.addNote()
+                      }
+                  }) {
+                  Icon(
+                      imageVector = icon,
+                      contentDescription = null
+                  )
 
-                }
-            }
+
+              }
+
         },
     ) { padding ->
         Column(

@@ -115,29 +115,31 @@ fun Home(
                             onDismissRequest = {
                                 openDialog = false
                             },
-                        title = {Text(text = "Delete Note?")},
-                        confirmButton = {
-                            Button(onClick = {
-                                selectedNote?.documentId?.let{
-                                    homeViewModel?.deleteNote(it)
+                            title = { Text(text = "Delete Note?") },
+                            confirmButton = {
+                                Button(
+                                    onClick = {
+                                        selectedNote?.documentId?.let {
+                                            homeViewModel?.deleteNote(it)
+                                        }
+                                        openDialog = false
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        backgroundColor = Color.Magenta
+                                    ),
+                                ) {
+                                    Text(text = "Delete ")
                                 }
-                                openDialog= false
                             },
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Magenta
-                            ),
-                            ) {
-                                Text(text = "Delete ")
+                            dismissButton = {
+                                Button(onClick = { openDialog = false }) {
+                                    Text(text = "Cancel")
+
+                                }
                             }
-                        },
-                        dismissButton = {
-                            Button(onClick = { openDialog = false }) {
-                                Text(text = "Cancel")
-                                
-                            }
-                        }
                         )
                     }
+
 
 
                 }
@@ -165,50 +167,47 @@ fun NoteItem(
     notes: Notes,
     onLongClick:() ->Unit,
     onClick:()-> Unit
-){
+) {
     Card(
-       modifier = Modifier
-           .combinedClickable1(
-               onLongClick = { onLongClick.invoke() },
-               onClick = { onClick.invoke() }
-           )
-           .padding(8.dp)
-           .fillMaxWidth(),
+        modifier = Modifier
+            .combinedClickable1(
+                onLongClick = { onLongClick.invoke() },
+                onClick = { onClick.invoke() }
+            )
+            .padding(8.dp)
+            .fillMaxWidth(),
         backgroundColor = Utils.colors[notes.colorIndex]
-    ){
-        Column{
-            Text(text = notes.title,
-            style = MaterialTheme.typography.h6,
-            fontWeight = FontWeight.Bold,
-            maxLines = 1,
-            overflow = TextOverflow.Clip,
-            modifier = Modifier.padding(4.dp)
+    ) {
+        Column {
+            Text(
+                text = notes.title,
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Clip,
+                modifier = Modifier.padding(4.dp)
             )
             Spacer(modifier = Modifier.size(4.dp))
-            CompositionLocalProvider(
-                LocalContentAlpha provides ContentAlpha.disabled
-            ) {
-
-                Text(text = formatDate(notes.timestamp),
-                    style = MaterialTheme.typography.body1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .padding(4.dp)
-                    .align(Alignment.End),
-                maxLines = 4
-                )
-            }
-            Spacer(modifier = Modifier.size(4.dp))
+//            CompositionLocalProvider(
+//                LocalContentAlpha provides ContentAlpha.disabled
+//            ) {
+//
+//                Text(text = formatDate(notes.timestamp),
+//                    style = MaterialTheme.typography.body1,
+//                overflow = TextOverflow.Ellipsis,
+//                modifier = Modifier
+//                    .padding(4.dp)
+//                    .align(Alignment.End),
+//                maxLines = 4
+//                )
+//            }
+//            Spacer(modifier = Modifier.size(4.dp))
+//
+//        }
 
         }
 
     }
-
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
-private fun formatDate(timestamp: com.google.firebase.Timestamp):String{
-    val sdf = SimpleDateFormat("MM-dd-yy hh:mm", Locale.getDefault())
-    return sdf.format(timestamp)
-
-}
+//}
