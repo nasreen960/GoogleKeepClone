@@ -173,6 +173,5 @@ fun ColorItem(
 @Composable
 fun PreviewDetailScreen(){
     DetailScreen(detailViewModel = null, noteId = " ") {
-
     }
 }

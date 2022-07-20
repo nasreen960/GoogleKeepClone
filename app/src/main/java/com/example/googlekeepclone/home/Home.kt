@@ -49,7 +49,7 @@ fun Home(
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-    LaunchedEffect(key1 = Unit){
+    LaunchedEffect(key1 = Unit) {
         homeViewModel?.loadNotes()
     }
 
@@ -80,28 +80,29 @@ fun Home(
                         )
                     }
                 },
-                title = { Text(text = "Home")}
+                title = { Text(text = "Home") }
             )
         }
-    ) {   padding->
+    ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            when(homeUiState.noteslist){
-                is Resources.Loading ->{
+            when (homeUiState.noteslist) {
+                is Resources.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .fillMaxSize()
                             .wrapContentSize(align = Alignment.Center)
                     )
                 }
-                is Resources.Success->{
-                    LazyVerticalGrid(cells = GridCells.Fixed(2),
+                is Resources.Success -> {
+                    LazyVerticalGrid(
+                        cells = GridCells.Fixed(2),
                         contentPadding = PaddingValues(16.dp),
-                    ){
-                        items(homeUiState.noteslist.data?: emptyList()){note ->
+                    ) {
+                        items(homeUiState.noteslist.data ?: emptyList()) { note ->
                             NoteItem(
-                                notes = note ,
+                                notes = note,
                                 onLongClick = {
-                                    openDialog= true
+                                    openDialog = true
                                     selectedNote = note
                                 },
                             ) {
@@ -141,32 +142,33 @@ fun Home(
                     }
 
 
-
                 }
                 else -> {
-                    Text(text = homeUiState
-                        .noteslist.throwable?.localizedMessage?:"Unknown Error",
-                    color = Color.Magenta
+                    Text(
+                        text = homeUiState
+                            .noteslist.throwable?.localizedMessage ?: "Unknown Error",
+                        color = Color.Magenta
                     )
                 }
             }
-            
+
         }
 
     }
-    LaunchedEffect(key1 = homeViewModel?.hasUser){
-        if(homeViewModel?.hasUser == false){
+    LaunchedEffect(key1 = homeViewModel?.hasUser) {
+        if (homeViewModel?.hasUser == false) {
             navToLoginPage.invoke()
         }
     }
 }
+
 @RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteItem(
     notes: Notes,
-    onLongClick:() ->Unit,
-    onClick:()-> Unit
+    onLongClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -188,26 +190,15 @@ fun NoteItem(
                 modifier = Modifier.padding(4.dp)
             )
             Spacer(modifier = Modifier.size(4.dp))
-//            CompositionLocalProvider(
-//                LocalContentAlpha provides ContentAlpha.disabled
-//            ) {
-//
-//                Text(text = formatDate(notes.timestamp),
-//                    style = MaterialTheme.typography.body1,
-//                overflow = TextOverflow.Ellipsis,
-//                modifier = Modifier
-//                    .padding(4.dp)
-//                    .align(Alignment.End),
-//                maxLines = 4
-//                )
-//            }
-//            Spacer(modifier = Modifier.size(4.dp))
-//
-//        }
-
+            Text(
+                text = notes.description,
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Normal,
+                maxLines = 8,
+                overflow = TextOverflow.Clip,
+                modifier = Modifier.padding(4.dp)
+            )
         }
 
     }
 }
-
-//}
