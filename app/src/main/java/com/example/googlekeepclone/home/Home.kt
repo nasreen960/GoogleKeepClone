@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.googlekeepclone.R
 import com.example.googlekeepclone.Utils
@@ -46,28 +47,47 @@ fun Home(
     var selectedNote: Notes? by remember {
         mutableStateOf(null)
     }
-    val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
     LaunchedEffect(key1 = Unit) {
         homeViewModel?.loadNotes()
     }
 
+
     Scaffold(
         scaffoldState = scaffoldState,
+        bottomBar = {
+                    BottomAppBar(backgroundColor = Color.LightGray,
+                        modifier = Modifier.padding(10.dp)
+                    ) {
+                        Icon(painter = painterResource(id =R.drawable.ic_brush ),
+                            contentDescription = null,
+                            tint = Color.Black)
+                        Spacer(modifier = Modifier.width(24.dp))
+                        Icon(painter = painterResource(id =R.drawable.ic_mic ),
+                            contentDescription = null,
+                            tint = Color.Black)
+                        Spacer(modifier = Modifier.width(24.dp))
+                        Icon(painter = painterResource(id =R.drawable.ic_image ),
+                            contentDescription = null,
+                            tint = Color.Black)
+                        
+                    }
+        },
+        floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            FloatingActionButton(onClick = {
+            FloatingActionButton(backgroundColor = Color.LightGray,onClick = {
                 navToDetailPage.invoke()
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add_home),
-                    contentDescription = null
+                    contentDescription = null,
                 )
 
             }
         },
         topBar = {
-            TopAppBar(
+            TopAppBar(backgroundColor = Color.LightGray,
                 navigationIcon = {},
                 actions = {
                     IconButton(onClick = {
@@ -80,7 +100,7 @@ fun Home(
                         )
                     }
                 },
-                title = { Text(text = "Home") }
+                title = { Text(text = "Notes") }
             )
         }
     ) { padding ->
@@ -98,7 +118,7 @@ fun Home(
                         cells = GridCells.Fixed(2),
                         contentPadding = PaddingValues(16.dp),
                     ) {
-                        items(homeUiState.noteslist.data ?: emptyList()) { note ->
+                        items(homeUiState.noteslist.data?:emptyList()) { note ->
                             NoteItem(
                                 notes = note,
                                 onLongClick = {
@@ -109,6 +129,19 @@ fun Home(
                                 onNoteClick.invoke(note.documentId)
                             }
                         }
+
+                    }
+                    Row(verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Start) {
+                        Icon(painter = painterResource(id =R.drawable.ic_brush ),
+                            contentDescription = null,
+                        tint = Color.Black)
+                        Icon(painter = painterResource(id =R.drawable.ic_mic ),
+                            contentDescription = null,
+                            tint = Color.Black)
+                        Icon(painter = painterResource(id =R.drawable.ic_image ),
+                            contentDescription = null,
+                            tint = Color.Black)
 
                     }
                     AnimatedVisibility(visible = openDialog) {
@@ -126,7 +159,7 @@ fun Home(
                                         openDialog = false
                                     },
                                     colors = ButtonDefaults.buttonColors(
-                                        backgroundColor = Color.Magenta
+                                        backgroundColor = Color.Gray
                                     ),
                                 ) {
                                     Text(text = "Delete ")
@@ -135,13 +168,10 @@ fun Home(
                             dismissButton = {
                                 Button(onClick = { openDialog = false }) {
                                     Text(text = "Cancel")
-
                                 }
                             }
                         )
                     }
-
-
                 }
                 else -> {
                     Text(
@@ -151,9 +181,7 @@ fun Home(
                     )
                 }
             }
-
         }
-
     }
     LaunchedEffect(key1 = homeViewModel?.hasUser) {
         if (homeViewModel?.hasUser == false) {
@@ -199,6 +227,19 @@ fun NoteItem(
                 modifier = Modifier.padding(4.dp)
             )
         }
+    }
+}
+@RequiresApi(Build.VERSION_CODES.N)
+@Preview
+@Composable
+fun PrevHomeScreen() {
+
+        Home(
+            homeViewModel = null,
+            onNoteClick = {},
+            navToDetailPage = { /*TODO*/ }
+        ) {
+
 
     }
 }
