@@ -1,5 +1,6 @@
 package com.example.googlekeepclone.detail
 
+import android.graphics.Color
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -37,7 +38,7 @@ class DetailViewModel(
                 userId = user!!.uid,
                 title = detailUiState.title,
                 description = detailUiState.note,
-                color = detailUiState.colorIndex,
+//                color = detailUiState.colorIndex,
                 timestamp = Timestamp.now()
             ){
                 detailUiState = detailUiState.copy(noteAddedStatus = it)
@@ -47,7 +48,7 @@ class DetailViewModel(
     }
     fun setEditFields(note: Notes){
         detailUiState =detailUiState.copy(
-            colorIndex = note.colorIndex,
+            colorIndex = Color.LTGRAY,
             title = note.title,
             note = note.description
         )

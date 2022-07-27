@@ -70,7 +70,6 @@ class StorageRepository {
         title: String,
         description: String,
         timestamp: Timestamp,
-        color: Int = 0,
         onComplete: (Boolean) -> Unit
     ) {
         val documentId = notesRef.document().id
@@ -79,7 +78,6 @@ class StorageRepository {
             title,
             description,
             timestamp,
-            colorIndex = color,
             documentId = documentId
         )
         notesRef

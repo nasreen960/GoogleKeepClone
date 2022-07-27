@@ -1,9 +1,9 @@
 package com.example.googlekeepclone.navigation
 
-import LoginViewModel
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -16,9 +16,10 @@ import com.example.googlekeepclone.detail.DetailScreen
 import com.example.googlekeepclone.detail.DetailViewModel
 import com.example.googlekeepclone.home.Home
 import com.example.googlekeepclone.home.HomeViewModel
-import com.example.googlekeepclone.login.LoginScreen
-import com.example.googlekeepclone.login.SignUpScreen
-import androidx.navigation.navigation as navigation1
+import com.example.googlekeepclone.login.AuthViewModel
+import com.example.googlekeepclone.login.SignUpLoginScreen
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+
 
 
 enum class LoginRoutes {
@@ -41,13 +42,19 @@ enum class NestedRoutes{
 @Composable
 fun Navigation(
     navController: NavHostController = rememberNavController(),
-    loginViewModel: LoginViewModel,
+    loginViewModel: AuthViewModel,
     detailViewModel: DetailViewModel,
     homeViewModel: HomeViewModel
 ) {
     NavHost(
         navController = navController,
-        startDestination = NestedRoutes.Main.name
+        startDestination = if(GoogleSignIn.getLastSignedInAccount(LocalContext.current)==null){
+            NestedRoutes.Login.name
+        }else{
+            NestedRoutes.Main.name
+
+        }
+
     ) {
         authGraph(navController, loginViewModel)
         homeGraph(
@@ -61,16 +68,17 @@ fun Navigation(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 fun NavGraphBuilder.authGraph(
     navController: NavHostController,
-    loginViewModel: LoginViewModel,
+    loginViewModel: AuthViewModel,
 ){
     navigation(
         startDestination = LoginRoutes.SignIn.name,
         route = NestedRoutes.Login.name
     ){
         composable(route = LoginRoutes.SignIn.name) {
-            LoginScreen(onNavToHomePage = {
+            SignUpLoginScreen(onNavToHomePage = {
                 navController.navigate(NestedRoutes.Main.name) {
                     launchSingleTop = true
                     popUpTo(route = LoginRoutes.SignIn.name) {

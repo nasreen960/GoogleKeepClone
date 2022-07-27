@@ -1,14 +1,15 @@
 package com.example.googlekeepclone.home
 
-import android.icu.text.SimpleDateFormat
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
@@ -24,9 +25,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.googlekeepclone.R
-import com.example.googlekeepclone.Utils
 import com.example.googlekeepclone.model.Notes
 import com.example.googlekeepclone.repository.Resources
+import com.example.googlekeepclone.ui.theme.GreyBackground
 import java.util.*
 import androidx.compose.foundation.combinedClickable as combinedClickable1
 
@@ -57,7 +58,7 @@ fun Home(
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-                    BottomAppBar(backgroundColor = Color.LightGray,
+                    BottomAppBar(backgroundColor = GreyBackground,
                         modifier = Modifier.padding(10.dp)
                     ) {
                         Icon(painter = painterResource(id =R.drawable.ic_brush ),
@@ -71,24 +72,27 @@ fun Home(
                         Icon(painter = painterResource(id =R.drawable.ic_image ),
                             contentDescription = null,
                             tint = Color.Black)
+                        Spacer(modifier = Modifier.width(24.dp))
+                        Icon(painter = painterResource(id =R.drawable.ic_checkbox),
+                            contentDescription = null,
+                            tint = Color.Black)
                         
                     }
         },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            FloatingActionButton(backgroundColor = Color.LightGray,onClick = {
+            FloatingActionButton(backgroundColor = Color.White,onClick = {
                 navToDetailPage.invoke()
             }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_add_home),
-                    contentDescription = null,
-                )
+                Image(painter = painterResource(id = R.drawable.fab_button),
+                    contentDescription =null ,
+                modifier = Modifier.size(32.dp))
 
             }
         },
         topBar = {
-            TopAppBar(backgroundColor = Color.LightGray,
-                navigationIcon = {},
+            TopAppBar(backgroundColor = GreyBackground,
+                navigationIcon = {R.drawable.ic_add},
                 actions = {
                     IconButton(onClick = {
                         homeViewModel?.signOut()
@@ -97,10 +101,12 @@ fun Home(
                         Icon(
                             imageVector = Icons.Default.ExitToApp,
                             contentDescription = null,
+                            tint = Color.Black
                         )
                     }
                 },
-                title = { Text(text = "Notes") }
+                title = { Text(text = "Search Your Notes", color = Color.Black) }
+            
             )
         }
     ) { padding ->
@@ -129,19 +135,6 @@ fun Home(
                                 onNoteClick.invoke(note.documentId)
                             }
                         }
-
-                    }
-                    Row(verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.Start) {
-                        Icon(painter = painterResource(id =R.drawable.ic_brush ),
-                            contentDescription = null,
-                        tint = Color.Black)
-                        Icon(painter = painterResource(id =R.drawable.ic_mic ),
-                            contentDescription = null,
-                            tint = Color.Black)
-                        Icon(painter = painterResource(id =R.drawable.ic_image ),
-                            contentDescription = null,
-                            tint = Color.Black)
 
                     }
                     AnimatedVisibility(visible = openDialog) {
@@ -199,14 +192,16 @@ fun NoteItem(
     onClick: () -> Unit
 ) {
     Card(
+        shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .combinedClickable1(
                 onLongClick = { onLongClick.invoke() },
                 onClick = { onClick.invoke() }
             )
-            .padding(8.dp)
+            .padding(12.dp)
             .fillMaxWidth(),
-        backgroundColor = Utils.colors[notes.colorIndex]
+
+        backgroundColor = GreyBackground
     ) {
         Column {
             Text(
@@ -215,16 +210,18 @@ fun NoteItem(
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Clip,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(4.dp),
+                color = Color.Black
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
                 text = notes.description,
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.subtitle2,
                 fontWeight = FontWeight.Normal,
                 maxLines = 8,
                 overflow = TextOverflow.Clip,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.Black
             )
         }
     }
